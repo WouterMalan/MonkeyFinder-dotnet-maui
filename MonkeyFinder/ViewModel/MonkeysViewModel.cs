@@ -13,6 +13,9 @@ public partial class MonkeysViewModel : BaseViewModel
     IConnectivity connectivity;
     IGeolocation geolocation;
 
+    [ObservableProperty]
+    bool isRefreshing;  
+
 
     public MonkeysViewModel(MonkeyService monkeyService, IConnectivity connectivity, IGeolocation geolocation)
     {
@@ -20,11 +23,15 @@ public partial class MonkeysViewModel : BaseViewModel
         this.monkeyService = monkeyService;
         this.connectivity = connectivity;
         this.geolocation = geolocation;
+
     }
+
+
 
     [RelayCommand]
     async Task GetClosestMonkey()
     {
+
         if (IsBusy || Monkeys.Count == 0)
         {
             if (Monkeys.Count == 0)
@@ -126,6 +133,7 @@ public partial class MonkeysViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
+            IsRefreshing = false;
         }
     }
 
